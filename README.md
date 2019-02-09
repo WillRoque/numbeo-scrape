@@ -1,6 +1,6 @@
 # Numbeo Scrape
 
-This is a small side project to scrape numbeo.com to calculate how much money one would have left after paying living expenses and rent in cities with relevant amount of data in the website.
+This is a small side project to scrape [numbeo.com](numbeo.com) to calculate how much money one would have left after paying living expenses and rent in cities with relevant amount of data in the website. The data used is always current.
 
 ## How To Use
 
