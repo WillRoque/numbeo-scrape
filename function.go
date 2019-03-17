@@ -35,8 +35,12 @@ func ScrapeNumbeo(w http.ResponseWriter, r *http.Request) {
 
 	sort.Sort(byMoneyAfterLargeAptOutsideAndMonthlyCost(cities))
 
+	spreadsheet := numbeo.GenerateSpreadsheet(cities)
+	var buf bytes.Buffer
+	spreadsheet.Write(&buf)
+	fileBytes := buf.Bytes()
+
 	fileName := "remaining-money.xlsx"
-	fileBytes := numbeo.GenerateSpreadsheet(cities)
 	w.Header().Set("Content-Disposition", fmt.Sprintf(`attachment; filename="%s"`, fileName))
 	http.ServeContent(w, r, fileName, time.Now(), bytes.NewReader(fileBytes))
 }
@@ -44,7 +48,11 @@ func ScrapeNumbeo(w http.ResponseWriter, r *http.Request) {
 // getCityInfo calculates the information of a city after its scraping
 // and sends it through the channel c.
 func getCityInfo(u url.URL, c chan numbeo.CityInfo) {
-	c <- numbeo.GetCityInfo(u)
+	ci, err := numbeo.GetCityInfo(u)
+	if err != nil {
+		log.Printf("numbeo.GetCityInfo(%q) error: %v", u.String(), err)
+	}
+	c <- ci
 }
 
 // byMoneyAfterLargeAptOutsideAndMonthlyCost is used to sort cities

@@ -1,7 +1,6 @@
 package numbeo
 
 import (
-	"bytes"
 	"fmt"
 
 	"github.com/360EntSecGroup-Skylar/excelize"
@@ -86,7 +85,7 @@ func (c column) getCellName(row int) string {
 }
 
 // GenerateSpreadsheet generates a spreadsheet with the data contained in CityInfo.
-func GenerateSpreadsheet(cis []CityInfo) []byte {
+func GenerateSpreadsheet(cis []CityInfo) excelize.File {
 	xlsx := excelize.NewFile()
 	sheet := "Remaining Money"
 	xlsx.SetSheetName("Sheet1", sheet)
@@ -139,7 +138,5 @@ func GenerateSpreadsheet(cis []CityInfo) []byte {
 		xlsx.SetCellValue(sheet, moneyAfterLargeAptOutsideAndMonthlyCost.getCellName(i+2), ci.MoneyAfterLargeAptOutsideAndMonthlyCost)
 	}
 
-	var buf bytes.Buffer
-	xlsx.Write(&buf)
-	return buf.Bytes()
+	return *xlsx
 }

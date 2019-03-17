@@ -36,21 +36,19 @@ type CityInfo struct {
 
 // GetCityInfo scrapes data of a city from numbeo.com
 // and returns CityInfo with its fields calculated and filled.
-func GetCityInfo(u url.URL) CityInfo {
+func GetCityInfo(u url.URL) (CityInfo, error) {
 	var ci CityInfo
 
 	res, err := http.Get(u.String())
 	if err != nil {
-		log.Printf("error getting city info %s: %v", u.String(), err)
-		return ci
+		return ci, err
 	}
 	defer res.Body.Close()
 
 	// Parse the HTML document
 	doc, err := goquery.NewDocumentFromReader(res.Body)
 	if err != nil {
-		log.Printf("error parsing response from %s: %v", u.String(), err)
-		return ci
+		return ci, err
 	}
 
 	// Find city and country
@@ -115,7 +113,7 @@ func GetCityInfo(u url.URL) CityInfo {
 	ci.MoneyAfterLargeAptCentreAndMonthlyCost = ci.MoneyAfterLargeAptCentre - ci.MonthlyCost
 	ci.MoneyAfterLargeAptOutsideAndMonthlyCost = ci.MoneyAfterLargeAptOutside - ci.MonthlyCost
 
-	return ci
+	return ci, nil
 }
 
 // GetCitiesURLs scrapes URLs from numbeo.com of cities with relevant amount of data.
