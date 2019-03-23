@@ -10,7 +10,7 @@ That link will do the scraping, generate a spreadsheet with the data and start t
 
 The spreadsheet is sorted by **Remaining Money after paying living expenses + rent of a large apartment outside city centre** by default.
 
-##### Obs.: It takes approximately 20 seconds for it to finish running.
+*Obs.: Numbeo throttles many simultaneous connections to prevent scrapers. It can take up to 25 seconds to run.*
 
 ## Where Is The Code Running
 
