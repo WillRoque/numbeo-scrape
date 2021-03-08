@@ -67,7 +67,7 @@ func GetCityInfo(u url.URL) (CityInfo, error) {
 
 	// Find the monthly cost for a single person without rent
 	doc.Find(".emp_number").Each(func(i int, el *goquery.Selection) {
-		if !strings.Contains(el.Parent().Text(), "A single person monthly costs:") {
+		if !strings.Contains(el.Parent().Text(), "A single person estimated monthly costs") {
 			return
 		}
 		el.Find(".in_other_currency").Remove()
